@@ -44,7 +44,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<!--<classpathPrefix>lib/</classpathPrefix> -->
-							<mainClass>main.java.com.imaginea.crawler.CrawlerInitiator</mainClass>
+							<mainClass>com.imaginea.crawler.CrawlerInitiator</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

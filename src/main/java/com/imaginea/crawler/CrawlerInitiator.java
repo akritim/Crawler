@@ -8,15 +8,12 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.xml.XmlBeanFactory;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * @author akritim
  *
  */
-@SuppressWarnings("deprecation")
 public class CrawlerInitiator {
 
 	static final Logger logger = Logger.getLogger(CrawlerInitiator.class);
@@ -46,18 +43,23 @@ public class CrawlerInitiator {
 				logger.error("Year specified is not correct. Request cannot be processed: "
 						+ searchWordYear);
 			} else {
-
-				String confFile = "src\\main\\resources\\beandefinition.xml";
-				Resource resource_beans = new FileSystemResource(confFile);
-				BeanFactory beanFactory = new XmlBeanFactory(resource_beans);
-				Crawler crawler = (Crawler) beanFactory.getBean("crawler");
-				crawler.crawl(saveDirectory, searchWordYear, url,
-						connectionRetryCount, waitTimeout);
+				ClassPathXmlApplicationContext applicationContext = null;
+				try{
+					//String confFile = "src\\main\\resources\\beandefinition.xml";
+					//Resource resource_beans = new FileSystemResource(confFile);
+					applicationContext = new ClassPathXmlApplicationContext("/beandefinition.xml");
+					//BeanFactory beanFactory = new XmlBeanFactory(resource_beans);
+					BeanFactory beanFactory = applicationContext.getBeanFactory();
+					Crawler crawler = (Crawler) beanFactory.getBean("crawler");
+					crawler.crawl(saveDirectory, searchWordYear, url,
+							connectionRetryCount, waitTimeout);	
+				} finally{
+					applicationContext.close();
+				}
 			}
 		} catch (IOException ioexception) {
 			logger.error(ioexception);
 		}
-
 	}
 
 	/**
@@ -65,14 +67,17 @@ public class CrawlerInitiator {
 	 * crawling
 	 */
 	public static void setSourceProperties() throws IOException {
-		String confFile = "src\\main\\resources\\connection_sourceproperties.xml";
-		Resource resource_source_url = new FileSystemResource(confFile);
-		BeanFactory beanFactory = new XmlBeanFactory(resource_source_url);
-		Properties sourceConfig = (Properties) beanFactory
-				.getBean("sourceProperty");
+		//String confFile = "src\\main\\resources\\connection_sourceproperties.xml";
+		//Resource resource_source_url = new FileSystemResource(confFile);
+		ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("/connection_sourceproperties.xml");
+		//BeanFactory beanFactory = new XmlBeanFactory(applicationContext);
+		//Properties sourceConfig = (Properties) beanFactory
+	//	.getBean("sourceProperty");
+		Properties sourceConfig = (Properties) applicationContext.getBean("sourceProperty");
 		url = sourceConfig.getProperty("source_url");
 		connectionRetryCount = Integer.parseInt(sourceConfig
 				.getProperty("connectionRetryCount"));
 		waitTimeout = Integer.parseInt(sourceConfig.getProperty("waitTimeout"));
+		applicationContext.close();
 	}
 }

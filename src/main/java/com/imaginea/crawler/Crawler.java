@@ -52,7 +52,6 @@ public class Crawler implements BeanFactoryAware {
 		for (String month : months) {
 			contentParser = (ContentParser) beanFactory
 					.getBean("contentParser");
-			System.out.println(contentParser + " : " + month);
 			contentParser.setUrlContentParserParameters(searchWordYear, month,
 					url, sharedQueue, connectionRetryCount, waitTimeout);
 			parserExecutor.execute(contentParser);

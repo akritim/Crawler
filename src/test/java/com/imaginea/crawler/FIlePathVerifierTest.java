@@ -13,24 +13,24 @@ import org.junit.Test;
  *
  */
 public class FIlePathVerifierTest {
-	
+
 	FilePathVerifier filePathVerifier = new FilePathVerifier();
 	String saveDirectory;
 	String testCaseType;
-	
+
 	/**
-	 * Test method for {@link com.imaginea.crawler.FilePathVerifier#verifyPath(java.lang.String)}.
+	 * Test method for
+	 * {@link com.imaginea.crawler.FilePathVerifier#verifyPath(java.lang.String)}
+	 * .
 	 */
 	@Test
 	public void testVerifyPath_incorrectPath() {
 		testCaseType = "Incorrect Path";
 		saveDirectory = "G:\folder2";
 		String result;
-		try{
+		try {
 			result = filePathVerifier.verifyPath(saveDirectory);
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 			result = "";
 		}
@@ -38,11 +38,13 @@ public class FIlePathVerifierTest {
 		System.out.println("Result Size: " + result.length());
 		System.out.println("Result String: " + result);
 		assertFalse("Result: " + testCaseType + " : ", result.length() > 0);
-		
+
 	}
-	
+
 	/**
-	 * Test method for {@link com.imaginea.crawler.FilePathVerifier#verifyPath(java.lang.String)}.
+	 * Test method for
+	 * {@link com.imaginea.crawler.FilePathVerifier#verifyPath(java.lang.String)}
+	 * .
 	 */
 	@Test
 	public void testVerifyPath_correctPathFolderNotYetThere() {
@@ -53,11 +55,13 @@ public class FIlePathVerifierTest {
 		System.out.println(testCaseType);
 		System.out.println("Result Size: " + result.length());
 		System.out.println("Result String: " + result);
-		
+
 	}
-	
+
 	/**
-	 * Test method for {@link com.imaginea.crawler.FilePathVerifier#verifyPath(java.lang.String)}.
+	 * Test method for
+	 * {@link com.imaginea.crawler.FilePathVerifier#verifyPath(java.lang.String)}
+	 * .
 	 */
 	@Test
 	public void testVerifyPath_correctPathFolderExists() {
@@ -69,7 +73,5 @@ public class FIlePathVerifierTest {
 		System.out.println("Result Size: " + result.length());
 		System.out.println("Result String: " + result);
 	}
-	
-	
 
 }

@@ -34,12 +34,17 @@
 	</dependencies>
 	<build>
 		<plugins>
+			<!-- Maven Assembly Plugin -->
 			<plugin>
-				<!-- Build an executable JAR -->
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
+				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.5</version>
 				<configuration>
+					<!-- get all project dependencies -->
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<!-- MainClass in mainfest make a executable jar -->
 					<archive>
 						<!-- Configures the content of the created manifest -->
 						<manifest>
@@ -48,11 +53,21 @@
 							<!-- Specifies that all dependencies of our application are found 
 								from the lib directory. -->
 							<classpathPrefix>lib/</classpathPrefix>
-							<!-- Configures the main class of the application -->
+
 							<mainClass>com.imaginea.crawler.CrawlerInitiator</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<!-- bind to the packaging phase -->
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
